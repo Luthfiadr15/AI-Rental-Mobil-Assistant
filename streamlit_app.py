@@ -350,31 +350,6 @@ if len(st.session_state.history) > 0:
             )
 
 # ==================================
-# RIWAYAT CHAT
-# ==================================
-
-if len(st.session_state.history) > 0:
-
-    st.markdown("---")
-    st.subheader("📝 Riwayat Konsultasi")
-
-    if st.button("🗑️ Hapus Riwayat"):
-
-        st.session_state.history = []
-
-        st.rerun()
-
-    for item in reversed(st.session_state.history):
-
-        with st.expander(
-            f"❓ {item['question']}"
-        ):
-
-            st.write(
-                item["answer"]
-            )
-
-# ==================================
 # STATISTIK
 # ==================================
 
