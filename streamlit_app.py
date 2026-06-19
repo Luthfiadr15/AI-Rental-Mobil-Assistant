@@ -289,34 +289,65 @@ if st.button(
                     "question": question
                 }
             )
-            
-            st.session_state.history.append(
-    {
-        "question": question,
-        "answer": result["answer"]
-    }
-)
 
-            st.markdown(f"""
-            <div class="ai-card">
+        # Simpan ke Riwayat
+        st.session_state.history.append(
+            {
+                "question": question,
+                "answer": result["answer"]
+            }
+        )
 
-            <h3>🤖 Rekomendasi AI</h3>
+        # Tampilkan Hasil AI
+        st.markdown("### 🤖 Rekomendasi AI")
 
-            <p>{result["answer"]}</p>
-            st.download_button(
-    "📥 Download Hasil AI",
-    result["answer"],
-    file_name=f"hasil_ai_{datetime.date.today()}.txt"
-)
+        st.success(
+            result["answer"]
+        )
 
-            </div>
-            """, unsafe_allow_html=True)
+        # Download Hasil
+        st.download_button(
+            label="📥 Download Hasil AI",
+            data=result["answer"],
+            file_name=f"hasil_ai_{datetime.date.today()}.txt",
+            mime="text/plain",
+            use_container_width=True
+        )
 
     else:
 
         st.warning(
             "Silakan masukkan pertanyaan terlebih dahulu."
         )
+
+# ==================================
+# RIWAYAT CHAT
+# ==================================
+
+if len(st.session_state.history) > 0:
+
+    st.markdown("---")
+    st.subheader("📝 Riwayat Konsultasi")
+
+    if st.button(
+        "🗑️ Hapus Riwayat",
+        use_container_width=True
+    ):
+
+        st.session_state.history = []
+        st.rerun()
+
+    for item in reversed(
+        st.session_state.history
+    ):
+
+        with st.expander(
+            f"❓ {item['question']}"
+        ):
+
+            st.write(
+                item["answer"]
+            )
 
 # ==================================
 # RIWAYAT CHAT
@@ -433,6 +464,22 @@ st.plotly_chart(
     use_container_width=True
 )
 
+st.markdown("---")
+st.subheader("📊 Distribusi Transmisi")
+
+df = pd.DataFrame(cars)
+
+fig2 = px.pie(
+    df,
+    names="transmisi",
+    title="Distribusi Jenis Transmisi"
+)
+
+st.plotly_chart(
+    fig2,
+    use_container_width=True
+)   
+
 # ==================================
 # STATISTIK DATASET
 # ==================================
@@ -492,6 +539,48 @@ for car in cars:
 st.success(
     f"Ditemukan {len(filtered_cars)} mobil sesuai filter"
 )
+
+if len(filtered_cars) > 0:
+
+    rekomendasi = min(
+        filtered_cars,
+        key=lambda x: x["harga"]
+    )
+
+    st.info(
+        f"""
+🏆 Rekomendasi Terbaik
+
+🚗 {rekomendasi['nama']}
+
+💰 Rp {rekomendasi['harga']:,}/hari
+
+👥 {rekomendasi['kapasitas']} Penumpang
+
+⚙️ {rekomendasi['transmisi']}
+"""
+    )
+
+if len(filtered_cars) > 0:
+
+    rekomendasi = min(
+        filtered_cars,
+        key=lambda x: x["harga"]
+    )
+
+    st.info(
+        f"""
+🏆 Rekomendasi Terbaik
+
+🚗 {rekomendasi['nama']}
+
+💰 Rp {rekomendasi['harga']:,}/hari
+
+👥 {rekomendasi['kapasitas']} Penumpang
+
+⚙️ {rekomendasi['transmisi']}
+"""
+    )
 
 # ==================================
 # GALERI MOBIL PREMIUM
@@ -557,6 +646,32 @@ for i, car in enumerate(filtered_cars):
 ⚙️ Transmisi : {car['transmisi']}
 """
                 )
+
+st.markdown("---")
+
+with st.expander("ℹ️ Tentang Project"):
+
+    st.write("""
+AI Rental Mobil Assistant merupakan sistem rekomendasi
+mobil berbasis Natural Language Processing (NLP).
+
+Teknologi yang digunakan:
+
+- LangChain
+- LangGraph
+- LangSmith
+- Gemini AI
+- Streamlit
+
+Fitur:
+
+- Analisis kebutuhan pengguna
+- Filter mobil berdasarkan budget
+- Filter kapasitas penumpang
+- Visualisasi data
+- Riwayat konsultasi
+- Download hasil rekomendasi
+""")
 
 # ==================================
 # FOOTER
