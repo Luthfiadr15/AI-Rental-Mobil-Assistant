@@ -1,0 +1,32 @@
+[
+{
+"nama": "Toyota Avanza",
+"harga": 450000,
+"kapasitas": 7,
+"transmisi": "Automatic"
+},
+{
+"nama": "Honda Brio",
+"harga": 350000,
+"kapasitas": 5,
+"transmisi": "Automatic"
+},
+{
+"nama": "Toyota Innova",
+"harga": 700000,
+"kapasitas": 7,
+"transmisi": "Automatic"
+},
+{
+"nama": "Toyota Hiace",
+"harga": 1200000,
+"kapasitas": 15,
+"transmisi": "Manual"
+},
+{
+"nama": "Mitsubishi Pajero",
+"harga": 1000000,
+"kapasitas": 7,
+"transmisi": "Automatic"
+}
+]
